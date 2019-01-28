@@ -2,7 +2,7 @@ import moment from 'moment'
 import PropTypes from 'prop-types'
 import React from 'react'
 
-const Days = ( {month} ) => {
+const Days = ({ month, onClickDay }) => {
   const monthStart = moment().month(month).startOf('month')
   const monthEnd = moment().month(month).endOf('month')
   const startDate = moment(monthStart).startOf('week')
@@ -17,7 +17,11 @@ const Days = ( {month} ) => {
     for (let i = 0; i < 7 ; i++) {
       date = moment(day).format("D")
       days.push(
-        <div className="col cell" key={day}>
+        <div
+          className="col cell"
+          id={date}
+          onClick={e => onClickDay(e.target)}
+          key={day}>
           <span className="number">{date}</span>
         </div>
       )
@@ -37,6 +41,7 @@ const Days = ( {month} ) => {
 
 Days.propTypes = {
   month: PropTypes.number,
+  onClickDay: PropTypes.func,
 }
 
 Days.defaultProps = {
