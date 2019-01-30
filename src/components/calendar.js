@@ -58,6 +58,7 @@ export default class Calendar extends Component {
         <DaysSection
           month={currentMonth}
           onClickDay={this.addReminder}
+          reminders={this.props.reminders}
         />
         {showModal && 
           <Modal

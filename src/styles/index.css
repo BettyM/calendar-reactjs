@@ -202,3 +202,13 @@ main {
   bottom: 0px;
   right: 0px;
 }
+
+/* List styles */
+.reminder-color span {
+  color: red;
+}
+
+.reminder-color li {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
