@@ -17,13 +17,13 @@ const Pickers = ({ onDateChange, selectedDate }) => {
           margin="normal"
           label="Date picker"
           value={selectedDate}
-          onChange={onDateChange}
+          onChange={e => onDateChange(e)}
         />
         <TimePicker
           margin="normal"
           label="Time picker"
           value={selectedDate}
-          onChange={onDateChange}
+          onChange={e => onDateChange(e)}
         />
       </Grid>
     </MuiPickersUtilsProvider>
@@ -32,7 +32,7 @@ const Pickers = ({ onDateChange, selectedDate }) => {
 
 Pickers.propTypes = {
   onDateChange: PropTypes.func,
-  selectedDate: PropTypes.instanceOf('date'),
+  selectedDate: PropTypes.object,
 }
 
 Pickers.defaultProps = {

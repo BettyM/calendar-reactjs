@@ -13,13 +13,15 @@ const Days = ({ month, onClickDay }) => {
   const rows = []
 
   let day = startDate
+  let dateString
   while (day <= endDate) {
     for (let i = 0; i < 7 ; i++) {
       date = moment(day).format("D")
+      dateString = moment(day).format()
       days.push(
         <div
           className="col cell"
-          id={date}
+          id={dateString}
           onClick={e => onClickDay(e.target)}
           key={day}>
           <span className="number">{date}</span>

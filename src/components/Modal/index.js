@@ -9,6 +9,7 @@ const Modal = ({
   saveReminder,
   selectedDate,
   onDateChange,
+  onReminderChange,
 }) => {
   return (
     <div className="modal">
@@ -18,6 +19,8 @@ const Modal = ({
           id="reminder"
           InputProps={{ inputProps: { maxLength: 30 } }}
           label="Reminder"
+          name="reminder"
+          onChange={onReminderChange}
         />
         <div className="modal-pickers">
           <Pickers
@@ -32,7 +35,7 @@ const Modal = ({
             variant="contained"
             onClick={cancelReminder}
           >
-              Cancel
+            Cancel
           </Button>
           <Button
             className="modal-button"
@@ -51,8 +54,9 @@ const Modal = ({
 Modal.propTypes = {
   cancelReminder: PropTypes.func,
   onDateChange: PropTypes.func,
+  onReminderChange: PropTypes.func,
   saveReminder: PropTypes.func,
-  selectedDate: PropTypes.instanceOf('date'),
+  selectedDate: PropTypes.object,
 }
 
 export default Modal
