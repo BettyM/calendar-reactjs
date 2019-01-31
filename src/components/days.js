@@ -6,10 +6,11 @@ import Reminders from './reminders'
 const Days = ({
   month,
   onClick,
-  reminders
+  reminders,
+  year
 }) => {
-  const monthStart = moment().month(month).startOf('month')
-  const monthEnd = moment().month(month).endOf('month')
+  const monthStart = moment([year, month]).startOf('month')
+  const monthEnd = moment([year, month]).endOf('month')
   const startDate = moment(monthStart).startOf('week')
   const endDate = moment(monthEnd).startOf('week')
 
@@ -74,11 +75,13 @@ Days.propTypes = {
       reminder: PropTypes.string,
     }
   )),
+  year: PropTypes.number,
 }
 
 Days.defaultProps = {
   month: moment().month(),
   reminders: [],
+  year: moment().year(),
 }
 
 export default Days

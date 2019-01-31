@@ -208,3 +208,12 @@ main {
   padding-top: 0px;
   padding-bottom: 0px;
 }
+
+/* Grid styles */
+.grid-center {
+  text-align: center;
+}
+
+.grid-right {
+  text-align: right;
+}

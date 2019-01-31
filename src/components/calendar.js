@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import moment from 'moment'
 import DaysSection from './days'
 import Modal from './Modal/index'
+import MonthsSection from './month'
 import WeekdaysSection from './weekdays'
 
 const defaultColor = '#FFFF'
@@ -12,12 +13,11 @@ export default class Calendar extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentMonth: moment().month(),
       editReminder: false,
       showModal: false,
     }
   }
-  
+
   addReminder = (e, reminder = {}) => {
     e.stopPropagation()
     if(e.target.tagName === "DIV") {
@@ -92,17 +92,29 @@ export default class Calendar extends Component {
 
   render() {
     const {
-      currentMonth,
       editReminder,
       showModal
     } = this.state
-    const { reminderObject } = this.props
+    const {
+      currentMonth,
+      currentYear,
+      reminderObject,
+      updateCurrentMonth,
+      updateCurrentYear,
+    } = this.props
 
     return (
       <div className="calendar">
+        <MonthsSection
+          currentMonth={currentMonth}
+          currentYear={currentYear}
+          updateCurrentMonth={updateCurrentMonth}
+          updateCurrentYear={updateCurrentYear}
+        />
         <WeekdaysSection />
         <DaysSection
           month={currentMonth}
+          year={currentYear}
           onClick={this.addReminder}
           reminders={this.props.reminders}
         />
@@ -121,6 +133,8 @@ export default class Calendar extends Component {
 }
 
 Calendar.propTypes = {
+  currentMonth: PropTypes.number,
+  currentYear: PropTypes.number,
   reminderObject: PropTypes.shape({
     id: PropTypes.number,
     color: PropTypes.string,
@@ -135,4 +149,6 @@ Calendar.propTypes = {
   selectedDate: PropTypes.object,
   setReminder: PropTypes.func,
   updateReminders: PropTypes.func,
+  updateCurrentMonth: PropTypes.func,
+  updateCurrentYear: PropTypes.func,
 }

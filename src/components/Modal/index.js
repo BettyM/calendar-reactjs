@@ -27,7 +27,7 @@ export default class Modal extends Component {
     this.setState(prevState => ({
       currentReminder: {
         ...prevState.currentReminder,
-        date: moment(e)
+        date: moment(e).format()
       }
     }))
   }

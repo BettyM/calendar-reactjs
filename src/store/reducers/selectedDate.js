@@ -2,14 +2,21 @@ import moment from 'moment'
 import { handleActions } from 'redux-actions'
 
 const defaultState = {
-  selectedDate: moment()
+  currentMonth: moment().month(),
+  currentYear: moment().year(),
 }
 
 const reducerMap = {
-  'SET_SELECTED_DATE': (state, {payload}) => {
+  'SET_CURRENT_MONTH': (state, {payload}) => {
     return {
       ...state,
-      selectedDate: moment(payload),
+      currentMonth: payload,
+    }
+  },
+  'SET_CURRENT_YEAR': (state, {payload}) => {
+    return {
+      ...state,
+      currentYear: payload,
     }
   },
 }
