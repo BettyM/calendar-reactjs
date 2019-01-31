@@ -69,6 +69,7 @@ Days.propTypes = {
   reminders: PropTypes.arrayOf(PropTypes.shape(
     { 
       id: PropTypes.number,
+      color: PropTypes.string,
       date: PropTypes.string,
       reminder: PropTypes.string,
     }

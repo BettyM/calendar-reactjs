@@ -32,6 +32,15 @@ export default class Modal extends Component {
     }))
   }
 
+  onColorChange = color => {
+    this.setState(prevState => ({
+      currentReminder: {
+        ...prevState.currentReminder,
+        color: color
+      }
+    }))
+  }
+
   render() {
     const {
       editMode,
@@ -56,7 +65,9 @@ export default class Modal extends Component {
           />
           <div className="modal-pickers">
             <Pickers
+              onColorChange={this.onColorChange}
               onDateChange={this.onDateChange}
+              selectedColor={currentReminder.color}
               selectedDate={moment(currentReminder.date)}
             />
           </div>
@@ -97,8 +108,6 @@ export default class Modal extends Component {
 Modal.propTypes = {
   cancelReminder: PropTypes.func,
   editMode: PropTypes.bool,
-  onDateChange: PropTypes.func,
-  onReminderChange: PropTypes.func,
   reminderObject: PropTypes.object,
   removeReminder: PropTypes.func,
   saveReminder: PropTypes.func,

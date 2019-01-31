@@ -9,9 +9,14 @@ const Reminders = ({ onClickReminder, reminders }) => {
   if(reminders.length > 0) {
     reminders = _.orderBy(reminders, ['date'],['asc'])
     const reminderList = reminders.map(( data, i ) => {
+      const style = {
+        backgroundColor: `${data.color}`,
+        opacity: .75,
+      }
       return (
         <div
           className="reminder-color"
+          style={style}
           id="item"
           key={i}
           onClick={e => onClickReminder(e, {data})}>
@@ -44,6 +49,7 @@ Reminders.propTypes = {
   reminders: PropTypes.arrayOf(PropTypes.shape(
     { 
       id: PropTypes.number,
+      color: PropTypes.string,
       date: PropTypes.string,
       reminder: PropTypes.string,
     }

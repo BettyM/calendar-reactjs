@@ -6,6 +6,8 @@ import DaysSection from './days'
 import Modal from './Modal/index'
 import WeekdaysSection from './weekdays'
 
+const defaultColor = '#FFFF'
+
 export default class Calendar extends Component {
   constructor(props) {
     super(props)
@@ -19,8 +21,9 @@ export default class Calendar extends Component {
   addReminder = (e, reminder = {}) => {
     e.stopPropagation()
     if(e.target.tagName === "DIV") {
-        this.props.setReminder({
+      this.props.setReminder({
         id: moment().valueOf(),
+        color: defaultColor,
         date: e.target.id,
         reminder: ""
       })
@@ -52,12 +55,14 @@ export default class Calendar extends Component {
       const reminder = remindersData[index]
       remindersData[index] = {
         id: reminder.id,
+        color: data.color,
         date: data.date,
         reminder: data.reminder
       }
     } else {
       const reminder = {
         id: data.id,
+        color: data.color,
         date: data.date,
         reminder: data.reminder
       }
@@ -92,7 +97,7 @@ export default class Calendar extends Component {
       showModal
     } = this.state
     const { reminderObject } = this.props
-    
+
     return (
       <div className="calendar">
         <WeekdaysSection />
@@ -106,8 +111,6 @@ export default class Calendar extends Component {
             cancelReminder={this.cancelReminder}
             editMode={editReminder}
             saveReminder={this.saveReminder}
-            onDateChange={this.onDateChange}
-            onReminderChange={this.onReminderChange}
             reminderObject={reminderObject}
             removeReminder={this.removeReminder}
           />
@@ -120,6 +123,7 @@ export default class Calendar extends Component {
 Calendar.propTypes = {
   reminderObject: PropTypes.shape({
     id: PropTypes.number,
+    color: PropTypes.string,
     date: PropTypes.string,
     reminder: PropTypes.string,
   }),

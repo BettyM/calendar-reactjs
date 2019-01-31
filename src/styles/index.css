@@ -173,12 +173,13 @@ main {
 .modal-main {
   position:fixed;
   background: white;
-  width: 80%;
-  height: 40%;
+  width: 600px;
+  height: 300px;
   top:50%;
   left:50%;
   transform: translate(-50%,-50%);
   text-align: center;
+  padding: 50px;
 }
 
 .modal-button {
@@ -188,12 +189,11 @@ main {
 }
 
 .modal-input {
-  top: 30px;
   width: 500px;
 }
 
 .modal-pickers {
-  margin-top: 30px;
+  margin-top: 10px;
 }
 
 .modal-options {
@@ -204,10 +204,6 @@ main {
 }
 
 /* List styles */
-.reminder-color span {
-  color: red;
-}
-
 .reminder-color li {
   padding-top: 0px;
   padding-bottom: 0px;
