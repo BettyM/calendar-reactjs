@@ -27,17 +27,18 @@ export default class Calendar extends Component {
         date: e.target.id,
         reminder: ""
       })
+      this.setState({ showModal: true })
     } else {
-      this.setState({ editReminder: true })
-      const data = _.find(this.props.reminders, {id: reminder.data.id})
-      this.props.setReminder(data)
+      if(!_.isEmpty(reminder)) {
+        this.setState({ editReminder: true })
+        const data = _.find(this.props.reminders, {id: reminder.data.id})
+        this.props.setReminder(data)
+        this.setState({ showModal: true })
+      }
     }
 
-    this.setState({
-      showModal: true,
-    })
   }
-  
+
   cancelReminder = () => {
     this.setState({
       showModal: false,
@@ -93,7 +94,7 @@ export default class Calendar extends Component {
   render() {
     const {
       editReminder,
-      showModal
+      showModal,
     } = this.state
     const {
       currentMonth,

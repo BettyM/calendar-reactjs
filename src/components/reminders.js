@@ -2,38 +2,31 @@ import _ from 'lodash'
 import PropTypes from 'prop-types'
 import React from 'react'
 import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemText from '@material-ui/core/ListItemText'
+import More from './more'
+import ReminderList from './reminderList'
 
 const Reminders = ({ onClickReminder, reminders }) => {
   if(reminders.length > 0) {
     reminders = _.orderBy(reminders, ['date'],['asc'])
-    const reminderList = reminders.map(( data, i ) => {
-      const style = {
-        backgroundColor: `${data.color}`,
-        opacity: .75,
-      }
-      return (
-        <div
-          className="reminder-color"
-          style={style}
-          id="item"
-          key={i}
-          onClick={e => onClickReminder(e, {data})}>
-          <ListItem key={i}>
-            <ListItemText
-              primary={data.reminder}
-            />
-          </ListItem>
-        </div>
-      )
-    })
 
+    const reminderList = (
+        <ReminderList
+          reminders={reminders.slice(0,2)}
+          onClickReminder={onClickReminder}
+        />
+      )
+    
+    const isBigger = !!(reminders.length > 2)
     return (
       <div className="reminders-section">
         <div className="reminder">
           <List dense={true}>
             {reminderList}
+            {isBigger && (
+              <More
+                reminders={reminders}
+                onClickReminder={onClickReminder}
+              />)}
           </List>
         </div>
       </div>
