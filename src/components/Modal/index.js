@@ -66,7 +66,7 @@ export default class Modal extends Component {
                 className="modal-button"
                 color="secondary"
                 variant="contained"
-                onClick={removeReminder}
+                onClick={() => removeReminder(currentReminder)}
               >
                 Delete
               </Button>

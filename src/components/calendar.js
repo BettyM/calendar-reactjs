@@ -73,8 +73,16 @@ export default class Calendar extends Component {
     })
   }
 
-  removeReminder = () => {
-    //TODO: remove reminder
+  removeReminder = reminder => {
+    let remindersData = this.props.reminders
+
+    remindersData = _.reject(remindersData, {id: reminder.id})
+    this.props.updateReminders(remindersData)
+
+    this.setState({
+      showModal: false,
+      editReminder: false,
+    })
   }
 
   render() {
