@@ -1,16 +1,14 @@
 import { createActions } from 'redux-actions'
 
 export const calendarActions = createActions({
+  SET_REMINDER: undefined,
   SET_REMINDERS: undefined,
-  SET_SELECTED_DATE: undefined,
 })
 
-calendarActions.setDate = date => async dispatch => {
-  dispatch(calendarActions.setSelectedDate(date))
+calendarActions.startReminder = reminder => async dispatch => {
+  await dispatch(calendarActions.setReminder(reminder))
 }
 
-calendarActions.setReminder = reminders => async dispatch => {
+calendarActions.saveReminders = reminders => async dispatch => {
   await dispatch(calendarActions.setReminders(reminders))
 }
-
-//export default selectedDate

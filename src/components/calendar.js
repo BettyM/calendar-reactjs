@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
@@ -6,67 +7,101 @@ import Modal from './Modal/index'
 import WeekdaysSection from './weekdays'
 
 export default class Calendar extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       currentMonth: moment().month(),
-      currentReminder: null,
+      editReminder: false,
       showModal: false,
     }
   }
+  
+  addReminder = (e, reminder = {}) => {
+    e.stopPropagation()
+    if(e.target.tagName === "DIV") {
+        this.props.setReminder({
+        id: moment().valueOf(),
+        date: e.target.id,
+        reminder: ""
+      })
+    } else {
+      this.setState({ editReminder: true })
+      const data = _.find(this.props.reminders, {id: reminder.data.id})
+      this.props.setReminder(data)
+    }
 
-  addReminder = date => {
-    this.props.updateSelectedDate(date.id)
     this.setState({
       showModal: true,
     })
   }
-
-  onDateChange = e => {
-    this.props.updateSelectedDate(moment(e))
-  }
-
-  onReminderChange = e => {
-    this.setState({ currentReminder: e.target.value })
-  }
-
+  
   cancelReminder = () => {
-    this.setState({ showModal: false })
+    this.setState({
+      showModal: false,
+      editReminder: false,
+    })
+    this.props.setReminder({})
   }
 
-  saveReminder = () => {
-    const { currentReminder } = this.state
+  saveReminder = async (data) => {
     const remindersData = this.props.reminders
-    const reminder = {
-      date: this.props.selectedDate.format(),
-      reminder: currentReminder
-    }
-    remindersData.push(reminder)
+    const { editReminder } = this.state
 
-    this.props.updateReminders(remindersData)
+    if(editReminder) {
+      const index = _.findIndex(remindersData, {id: data.id})
+      const reminder = remindersData[index]
+      remindersData[index] = {
+        id: reminder.id,
+        date: data.date,
+        reminder: data.reminder
+      }
+    } else {
+      const reminder = {
+        id: data.id,
+        date: data.date,
+        reminder: data.reminder
+      }
+      remindersData.push(reminder)
+    }
+
+    await this.props.updateReminders(remindersData)
+    await this.props.setReminder({})
 
     this.setState({
-      showModal: false
+      showModal: false,
+      editReminder: false,
     })
   }
 
+  removeReminder = () => {
+    //TODO: remove reminder
+  }
+
   render() {
-    const { currentMonth, showModal } = this.state
+    const {
+      currentMonth,
+      editReminder,
+      showModal
+    } = this.state
+    const { reminderObject } = this.props
+    
     return (
       <div className="calendar">
         <WeekdaysSection />
         <DaysSection
           month={currentMonth}
-          onClickDay={this.addReminder}
+          onClick={this.addReminder}
           reminders={this.props.reminders}
         />
         {showModal && 
           <Modal
             cancelReminder={this.cancelReminder}
+            editMode={editReminder}
             saveReminder={this.saveReminder}
             onDateChange={this.onDateChange}
             onReminderChange={this.onReminderChange}
-            selectedDate={this.props.selectedDate}
+            reminderObject={reminderObject}
+            removeReminder={this.removeReminder}
           />
         }
       </div>
@@ -75,11 +110,17 @@ export default class Calendar extends Component {
 }
 
 Calendar.propTypes = {
+  reminderObject: PropTypes.shape({
+    id: PropTypes.number,
+    date: PropTypes.string,
+    reminder: PropTypes.string,
+  }),
   reminders: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
     date: PropTypes.string,
     reminder: PropTypes.string,
   })),
   selectedDate: PropTypes.object,
+  setReminder: PropTypes.func,
   updateReminders: PropTypes.func,
-  updateSelectedDate: PropTypes.func,
 }

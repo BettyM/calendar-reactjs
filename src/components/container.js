@@ -1,19 +1,19 @@
 import { connect } from 'react-redux'
 import { calendarActions } from '../store/actions'
 import {
-  getSelectedDate,
+  getReminder,
   getReminders,
 } from '../store/reducers/selectors'
 import Calendar from './calendar'
 
 const mapDispatchToProps = {
-  updateReminders: calendarActions.setReminder,
-  updateSelectedDate: calendarActions.setDate,
+  setReminder: calendarActions.startReminder,
+  updateReminders: calendarActions.saveReminders,
 }
 
 const mapStateToProps = (state) => {
   return {
-    selectedDate: getSelectedDate(state),
+    reminderObject: getReminder(state),
     reminders: getReminders(state),
   }
 }

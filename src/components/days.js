@@ -3,18 +3,22 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import Reminders from './reminders'
 
-const Days = ({ month, onClickDay, reminders }) => {
+const Days = ({
+  month,
+  onClick,
+  reminders
+}) => {
   const monthStart = moment().month(month).startOf('month')
   const monthEnd = moment().month(month).endOf('month')
   const startDate = moment(monthStart).startOf('week')
   const endDate = moment(monthEnd).startOf('week')
-  
+
   let date
+  let dateString
   let days = []
   const rows = []
 
   let day = startDate
-  let dateString
   while (day <= endDate) {
     for (let i = 0; i < 7 ; i++) {
       const remindersList = []
@@ -23,8 +27,10 @@ const Days = ({ month, onClickDay, reminders }) => {
 
       // Get reminders of day
       if(reminders.length > 0) {
+        let reminderDate = ""
         for (let r = 0; r < reminders.length; r++) {
-          if( dateString === reminders[r].date) {
+          reminderDate = moment(reminders[r].date).startOf('day').format()
+          if( dateString === reminderDate) {
             remindersList.push(reminders[r])
           }
         }
@@ -34,10 +40,13 @@ const Days = ({ month, onClickDay, reminders }) => {
         <div
           className="col cell"
           id={dateString}
-          onClick={e => onClickDay(e.target)}
+          onClick={e => onClick(e)}
           key={day}>
           <span className="number">{date}</span>
-          <Reminders reminders={remindersList} />
+          <Reminders
+            onClickReminder={onClick}
+            reminders={remindersList}
+          />
         </div>
       )
       day = moment(day).add(1, 'days')
@@ -56,11 +65,14 @@ const Days = ({ month, onClickDay, reminders }) => {
 
 Days.propTypes = {
   month: PropTypes.number,
-  onClickDay: PropTypes.func,
-  reminders: PropTypes.arrayOf(PropTypes.shape({
-    date: PropTypes.string,
-    reminder: PropTypes.string,
-  })),
+  onClick: PropTypes.func,
+  reminders: PropTypes.arrayOf(PropTypes.shape(
+    { 
+      id: PropTypes.number,
+      date: PropTypes.string,
+      reminder: PropTypes.string,
+    }
+  )),
 }
 
 Days.defaultProps = {
